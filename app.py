@@ -116,28 +116,29 @@ def main():
     new_file = st.file_uploader("Upload New Code File", type=["py", "txt"])
 
     if st.button("Generate"):
-        if old_file and new_file:
-            old_file_path = f"temp_old_{old_file.name}"
-            new_file_path = f"temp_new_{new_file.name}"
+        with st.spinner('Wait for it...release notes and a README-like explanation:'):
+            if old_file and new_file:
+                old_file_path = f"temp_old_{old_file.name}"
+                new_file_path = f"temp_new_{new_file.name}"
 
-            # Save uploaded files temporarily
-            with open(old_file_path, "wb") as f:
-                f.write(old_file.getbuffer())
+                # Save uploaded files temporarily
+                with open(old_file_path, "wb") as f:
+                    f.write(old_file.getbuffer())
 
-            with open(new_file_path, "wb") as f:
-                f.write(new_file.getbuffer())
+                with open(new_file_path, "wb") as f:
+                    f.write(new_file.getbuffer())
 
-            # Generate release notes and README
-            result = generate_release_notes_and_readme_from_files(old_file_path, new_file_path)
+                # Generate release notes and README
+                result = generate_release_notes_and_readme_from_files(old_file_path, new_file_path)
 
-            # Store result in session state
-            st.session_state.result = result
+                # Store result in session state
+                st.session_state.result = result
 
-            # Clean up temporary files
-            os.remove(old_file_path)
-            os.remove(new_file_path)
-        else:
-            st.warning("Please upload both files before clicking Generate.")
+                # Clean up temporary files
+                os.remove(old_file_path)
+                os.remove(new_file_path)
+            else:
+                st.warning("Please upload both files before clicking Generate.")
 
     # Display result if available in session state
     if st.session_state.result:
