@@ -4,13 +4,16 @@ import streamlit as st
 import os
 
 # Initialize the Azure OpenAI client
-client = AzureOpenAI(
-    azure_endpoint="https://aipractices.openai.azure.com/",
-    api_version="2024-02-01",
-    api_key="e5990e77abe04e74b6de34cdb4d1cce4")
 
-model_name = 'gpt-4o-08-06'
-print(client)
+client = AzureOpenAI(
+    azure_endpoint=st.secrets["AZURE_ENDPOINT"],
+    api_version=st.secrets["AZURE_VERSION"],
+    api_key=st.secrets["AZURE_KEY"])
+
+model_name = st.secrets["AZURE_MODEL"]
+
+
+# print(client)
 
 def generate_release_notes_and_readme_from_files(old_file_path, new_file_path):
     """
